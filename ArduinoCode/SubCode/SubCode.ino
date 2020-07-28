@@ -5,14 +5,15 @@ AF_DCMotor motorL(3); // Left motor
 AF_DCMotor motorP(1); // Pump motor
 
 int val = 0;
-int bitRate = 100; // 1 bit every (x) millisecond
+int bitRate = 500; // time in millis between each bit
 int InstructionLength = 3; //number of bytes per instruction
 int By1 = 0;
 int By2 = 0;
 int By3 = 0;
-int byteTimer = 0; //time since first bit of (3) bytes recieved
+long wakeupTimer = 0; //time of wakeup bit recieved
+long lastTime = 0; // time of last bit
 bool recieving = false;
-int currentBit = 0;
+int bitNumber = 0;
 
 /*
  * (Byte 1) Instructions
@@ -27,6 +28,7 @@ int currentBit = 0;
 */
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin(9600);
   pinMode(14, INPUT);
   motorR.setSpeed(255);
   motorL.setSpeed(255);
@@ -44,7 +46,7 @@ void processBytes(){
     }else if(By2 == 2){//MotorL
       motorL.setSpeed(255);
       motorL.run(FORWARD);
-    }else if(Byx2 == 3){//MotorP
+    }else if(By2 == 3){//MotorP
       motorP.setSpeed(255);
       motorP.run(FORWARD);
     }
@@ -53,15 +55,12 @@ void processBytes(){
 }
 
 void processBit(int b){
-  int elapsedTime = millis() - byteTimer; // time elapsed since first bit was recieved
-  int bitNumber = elapsedTime / bitRate; // which bit was recieved
-  
-  if (currentBit < bitNumber){ //make sure we are reading a new bit
-    currentBit = bitNumber;
-  }else{
-    return;
-  }
-  
+  bitNumber++; // which bit was recieved
+  Serial.print(" bit: ");
+  Serial.print(bitNumber);
+  Serial.print(" val: ");
+  Serial.print(b);
+  Serial.print("\n");
   if(bitNumber <= 8){
     //first Byte
     By1 += (b*pow(2,(bitNumber-1)));
@@ -73,9 +72,10 @@ void processBit(int b){
     By3 += (b*pow(2,(bitNumber-17)));
   }
 
-  if (bitNumber = InstructionLength*8){
+  if (bitNumber == InstructionLength*8){
     //recieved all 3 bytes
     recieving = false;
+    bitNumber = 0;
     processBytes();
   }
 }
@@ -83,10 +83,16 @@ void processBit(int b){
 void loop() {
   // put your main code here, to run repeatedly:
   val = digitalRead(14); // Digital input from sound sensor
+  //Serial.print(val);
   if(val == 1 && !recieving){ // first high bit is a wakeup signal
-    byteTimer = millis();
+    Serial.print("Wakeup \n");
+    wakeupTimer = millis();
+    lastTime = wakeupTimer;
     recieving = true;
-  }else if(recieving){
+
+  }else if(recieving && (millis()-lastTime)>= bitRate ){
+    lastTime = millis();
+    Serial.print(lastTime);
     processBit(val);
   }
 }
