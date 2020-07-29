@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:text="@string/rc_submarine_v1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="36sp"
+        app:fontFamily="serif-monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Forward"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginRight="140dp"
+        android:onClick="Forward"
+        android:text="@string/forward"
+        app:layout_constraintBottom_toTopOf="@+id/Stop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+    <Button
+        android:id="@+id/Reverse"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginRight="140dp"
+        android:onClick="Reverse"
+        android:text="@string/reverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Stop" />
+
+    <Button
+        android:id="@+id/Left"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:onClick="Left"
+        android:text="@string/left"
+        app:layout_constraintBottom_toTopOf="@id/Reverse"
+        app:layout_constraintEnd_toStartOf="@id/Stop" />
+
+    <Button
+        android:id="@+id/Right"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:onClick="Right"
+        android:text="@string/right"
+        app:layout_constraintBottom_toBottomOf="@id/Stop"
+        app:layout_constraintStart_toEndOf="@id/Stop" />
+
+    <Button
+        android:id="@+id/Down"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="30dp"
+        android:onClick="Down"
+        android:text="@string/down"
+        app:layout_constraintBottom_toTopOf="@+id/Freq"
+        app:layout_constraintEnd_toStartOf="@+id/PumpStop"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Up"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="30dp"
+        android:onClick="Up"
+        android:text="@string/up"
+        app:layout_constraintBottom_toTopOf="@+id/Freq"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/PumpStop" />
+
+    <TextView
+        android:id="@+id/Freq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginRight="112dp"
+        android:layout_marginBottom="35dp"
+        android:text="@string/frequency_500hz"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Stop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginRight="140dp"
+        android:onClick="StopProp"
+        android:text="@string/stop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Forward" />
+
+    <Button
+        android:id="@+id/PumpStop"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginBottom="30dp"
+        android:onClick="StopPump"
+        android:text="Stop"
+        app:layout_constraintBottom_toTopOf="@+id/Freq"
+        app:layout_constraintEnd_toStartOf="@+id/Up"
+        app:layout_constraintStart_toEndOf="@+id/Down" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
